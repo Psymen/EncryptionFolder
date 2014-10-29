@@ -1,0 +1,18 @@
+#!/bin/bash
+encrypted_filename="$1"
+unencrypted_filename=`echo $encrypted_filename | sed "s/\.crypt//"`
+#
+#
+openssl enc -d -aes-256-cbc -salt -in "$encrypted_filename" -out "$unencrypted_filename" -pass pass:"$2"
+#
+#
+# if the new file is empty EXIT
+if [[ ! -s "$unencrypted_filename" ]] ; then
+  echo "$unencrypted_filename is empty \n" >> /tmp/encryptionfolder
+  exit 1
+fi
+#
+#  
+# new file not empty, so exit
+echo "$unencrypted_filename is not empty, so delete the other \n" >> /tmp/encryptionfolder
+rm -f "$encrypted_filename"

@@ -1,0 +1,18 @@
+#!/bin/bash
+unencrypted_filename="$1"
+encrypted_filename="$1.crypt"
+#
+# encrypt the file
+openssl enc -aes-256-cbc -salt -in "$unencrypted_filename" -out "$encrypted_filename" -pass pass:"$2"
+#
+#
+# if the new file is empty EXIT
+if [[ ! -s "$encrypted_filename" ]] ; then
+  echo '$encrypted_filename is empty \n' >> /tmp/encrypted_filename
+  exit 1
+fi
+#
+#
+# new file not empty, so exit
+echo '$encrypted_filename is not empty \n' >> /tmp/encrypted_filename
+rm -f "$unencrypted_filename"
